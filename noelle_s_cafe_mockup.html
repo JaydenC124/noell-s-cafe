@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noelle's Cafe - Haymarket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #fdfbf7; /* Soft cream background */
+        }
+        
+        h1, h2, h3, .brand-font {
+            font-family: 'Caveat', cursive; /* Playful/Cute header font matching their menu vibe */
+        }
+        
+        .hero-pattern {
+            background-image: linear-gradient(rgba(44, 36, 31, 0.6), rgba(44, 36, 31, 0.4)), url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Cart Animation */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .pop-anim {
+            animation: pop 0.3s ease-out;
+        }
+
+        /* Menu card subtle hover */
+        .menu-card {
+            background-color: #ffffff;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .menu-card:hover {
+            border-color: #93c5fd; /* pastel blue border on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(147, 197, 253, 0.3);
+        }
+
+        .modal-overlay {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="text-stone-800 antialiased relative">
+
+    <!-- Navigation -->
+    <nav class="bg-white/95 backdrop-blur-sm shadow-sm fixed w-full z-40 top-0 border-b border-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <span class="brand-font font-bold text-4xl tracking-tight text-stone-800">
+                        Noelle's Cafe
+                    </span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-stone-600 hover:text-blue-500 transition font-medium">About</a>
+                    <a href="#menu" class="text-stone-600 hover:text-blue-500 transition font-medium">Menu</a>
+                    <a href="#location" class="text-stone-600 hover:text-blue-500 transition font-medium">Location</a>
+                    <a href="#menu" class="bg-blue-500 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-blue-600 transition shadow-md shadow-blue-500/30">
+                        Order Pickup
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-pattern h-[75vh] flex items-center justify-center mt-20 relative">
+        <div class="text-center text-white px-4 z-10 w-full max-w-4xl">
+            <span class="uppercase tracking-widest text-sm font-bold mb-4 block text-blue-300">Haymarket, Sydney</span>
+            <h1 class="text-6xl md:text-8xl font-bold mb-6 leading-tight">Cozy Vibes.<br>Beautiful Brunch.</h1>
+            <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium text-stone-100">Your favorite local spot for fresh coffee, delicious eggs benedict, and heartwarming mains. Order online and skip the queue.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center font-semibold">
+                <a href="#menu" class="bg-blue-500 hover:bg-blue-600 text-white py-4 px-10 rounded-full transition transform hover:-translate-y-1 shadow-xl text-lg">
+                    View Menu & Order
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Highlights Section -->
+    <div id="about" class="py-24 bg-[#fdfbf7]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4 text-stone-800">Fresh. Local. Made with Love.</h2>
+                <div class="w-20 h-1 bg-blue-300 mx-auto rounded-full"></div>
+                <p class="mt-6 text-stone-500 max-w-2xl mx-auto text-lg">Rated 4.9 stars by our amazing Haymarket community. Join us for a perfect morning brew or a hearty lunch.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-8 bg-white rounded-3xl border border-stone-100 shadow-sm hover:shadow-lg transition duration-300">
+                    <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500 text-3xl">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-3 text-stone-800">Artisan Coffee</h3>
+                    <p class="text-stone-600 leading-relaxed font-medium">Expertly crafted lattes, frappes, and refreshing iced drinks to start your day right.</p>
+                </div>
+                
+                <div class="text-center p-8 bg-white rounded-3xl border border-stone-100 shadow-sm hover:shadow-lg transition duration-300">
+                    <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500 text-3xl">
+                        <i class="fas fa-egg"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-3 text-stone-800">All-Day Breakfast</h3>
+                    <p class="text-stone-600 leading-relaxed font-medium">From our loaded Big Breakfast to perfectly poached Eggs Benedict on sourdough.</p>
+                </div>
+
+                <div class="text-center p-8 bg-white rounded-3xl border border-stone-100 shadow-sm hover:shadow-lg transition duration-300">
+                    <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500 text-3xl">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-3 text-stone-800">Hearty Mains</h3>
+                    <p class="text-stone-600 leading-relaxed font-medium">Enjoy our famous Bibimbap, Gourmet Burgers, and fresh vibrant salads for lunch.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu & Ordering Section -->
+    <div id="menu" class="py-24 bg-white border-t border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-5xl font-bold mb-4 text-stone-800">Order Online</h2>
+                    <p class="text-stone-500 text-lg font-medium">Skip the line. Fresh food prepared for immediate pickup.</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <!-- INTEGRATION POINT: Square / GloriaFood Button Goes Here later -->
+                    <span id="kitchenStatus" class="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-800 text-sm font-bold tracking-wide transition-colors duration-300">
+                        <i class="fas fa-circle text-green-500 text-[10px] mr-2"></i> KITCHEN OPEN
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8 relative">
+                
+                <!-- Menu Items Grid -->
+                <div class="lg:w-2/3">
+                    
+                    <!-- Category: Breakfast -->
+                    <h3 class="text-4xl font-bold mb-6 pb-2 border-b-2 border-blue-100 text-stone-800">Breakfast</h3>
+                    <div id="grid-breakfast" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Big Breakfast</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$25.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Two free range eggs your way, bacon, grilled tomato, baked bean, sausage and hash brown with toast.</p></div>
+                            <button onclick="addToCart('Big Breakfast', 25.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Veggie Breakfast</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$25.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Two free range eggs your way, halloumi, mushroom, avocado, spinach and baked bean with toast.</p></div>
+                            <button onclick="addToCart('Veggie Breakfast', 25.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Egg Benedict</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$21.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Poached eggs on sourdough with avo, tomato. Choice of ham, smoked salmon, or bacon with hollandaise.</p></div>
+                            <button onclick="addToCart('Egg Benedict', 21.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Bacon Egg Roll</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$12.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">On turkish with bbq / tomato sauce.</p></div>
+                            <button onclick="addToCart('Bacon Egg Roll', 12.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Avocado On Sourdough</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$15.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">On sourdough with avocado, tomato, feta cheese.</p></div>
+                            <button onclick="addToCart('Avocado Sourdough', 15.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">B.L.A.T</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$15.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Bacon, lettuce, avocado & tomato on turkish bread.</p></div>
+                            <button onclick="addToCart('B.L.A.T', 15.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Egg On Toast</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$15.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Two free-range eggs your way with toast.</p></div>
+                            <button onclick="addToCart('Egg On Toast', 15.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Muesli</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$14.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Served with fruit & yoghurt.</p></div>
+                            <button onclick="addToCart('Muesli', 14.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Toast</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$7.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">White, brown, turkish, sourdough or GF with butter & spreads.</p></div>
+                            <button onclick="addToCart('Toast', 7.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                    </div>
+
+                    <!-- Category: Light Sandwiches -->
+                    <h3 class="text-4xl font-bold mb-6 pb-2 border-b-2 border-blue-100 text-stone-800">Light Sandwiches</h3>
+                    <div id="grid-sandwiches" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Ham, Cheese, Tomato, Lettuce</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$11.00</span></div></div>
+                            <button onclick="addToCart('Ham Cheese Tomato Sandwich', 11.00)" class="mt-4 w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Salami, Seeded Mustard</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$11.00</span></div></div>
+                            <button onclick="addToCart('Salami Mustard Sandwich', 11.00)" class="mt-4 w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Roast Beef, Cheese & Tomato</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$11.00</span></div></div>
+                            <button onclick="addToCart('Roast Beef Sandwich', 11.00)" class="mt-4 w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Salad, Cheese, Avocado</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$11.00</span></div></div>
+                            <button onclick="addToCart('Salad Avo Sandwich', 11.00)" class="mt-4 w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Ham, Cheese Croissant</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$9.50</span></div></div>
+                            <button onclick="addToCart('Ham Cheese Croissant', 9.50)" class="mt-4 w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                    </div>
+
+                    <!-- Category: Mains -->
+                    <h3 class="text-4xl font-bold mb-6 pb-2 border-b-2 border-blue-100 text-stone-800">Mains</h3>
+                    <div id="grid-mains" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Bibimbap</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$21.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Marinated beef, grilled vegetable with rice (chilly or soy sauce).</p></div>
+                            <button onclick="addToCart('Bibimbap', 21.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Gourmet Burger</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$23.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Herbes marinated beef or grilled chicken breast with lettuce, tomato, onion with chips.</p></div>
+                            <button onclick="addToCart('Gourmet Burger', 23.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Fillet Steak Sandwich</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$27.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Grilled steak, lettuce, tomato, bacon and caramelised onion with chips.</p></div>
+                            <button onclick="addToCart('Steak Sandwich', 27.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Grilled Cajun Barramundi</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$29.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Served with salad, chips, lemon and tartare sauce.</p></div>
+                            <button onclick="addToCart('Cajun Barramundi', 29.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Battered Fish & Chips</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$29.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Served with salad, chips, lemon and tartare sauce.</p></div>
+                            <button onclick="addToCart('Fish and Chips', 29.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Chicken Schnitzel Sandwich</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$15.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Schnitzel, lettuce, tomato, cheese.</p></div>
+                            <button onclick="addToCart('Schnitzel Sandwich', 15.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Cheese Bulgoggi Panini</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$16.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Marinated beef, cheese with turkish bread.</p></div>
+                            <button onclick="addToCart('Bulgoggi Panini', 16.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Cheese Kransky Hot Dog</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$14.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Kransky sausage, grilled onion, cheddar cheese with honey mustard.</p></div>
+                            <button onclick="addToCart('Kransky Hot Dog', 14.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Bowl of Fries</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$10.00</span></div></div>
+                            <button onclick="addToCart('Bowl of Fries', 10.00)" class="mt-4 w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                    </div>
+
+                    <!-- Category: Salads -->
+                    <h3 class="text-4xl font-bold mb-6 pb-2 border-b-2 border-blue-100 text-stone-800">Salads</h3>
+                    <div id="grid-salads" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Greek Salad</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$18.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Lettuce, tomato, cucumber, capsicum, olives, feta cheese and mixed herbs.</p></div>
+                            <button onclick="addToCart('Greek Salad', 18.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Chicken Caesar Salad</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$20.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Lettuce, soft boiled egg, bacon, crouton, parmesan cheese and homemade caesar dressing.</p></div>
+                            <button onclick="addToCart('Caesar Salad', 20.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Cajun Chicken & Avocado</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$20.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Mixed leaf salad, capsicum and onion with Cajun spiced grilled chicken and fresh avocado.</p></div>
+                            <button onclick="addToCart('Cajun Chicken Salad', 20.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Haloumi Salad</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$20.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Grilled Haloumi, beetroot, walnut, cherry tomato, lettuce and balsamic.</p></div>
+                            <button onclick="addToCart('Haloumi Salad', 20.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                        <div class="menu-card p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+                            <div><div class="flex justify-between items-start mb-2"><h4 class="font-bold text-stone-800 text-lg">Tuna Salad</h4><span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">$20.00</span></div><p class="text-sm text-stone-500 mb-4 font-medium">Mixed leaf salad, onion, tomato with tuna and poached egg.</p></div>
+                            <button onclick="addToCart('Tuna Salad', 20.00)" class="w-full bg-stone-800 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition duration-200">Add to Order</button>
+                        </div>
+                    </div>
+
+                    <!-- Category: Beverages -->
+                    <h3 class="text-4xl font-bold mb-6 pb-2 border-b-2 border-blue-100 text-stone-800">Beverages</h3>
+                    <div id="grid-drinks" class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+                        <div class="menu-card p-4 rounded-2xl shadow-sm flex flex-col justify-between text-center">
+                            <h4 class="font-bold text-stone-800">Latte / Flat White</h4>
+                            <span class="text-blue-600 font-bold mb-3">$5.50</span>
+                            <button onclick="addToCart('Latte', 5.50)" class="w-full bg-stone-100 hover:bg-blue-500 text-stone-800 hover:text-white text-sm font-bold py-2 rounded-xl transition">Add</button>
+                        </div>
+                        <div class="menu-card p-4 rounded-2xl shadow-sm flex flex-col justify-between text-center">
+                            <h4 class="font-bold text-stone-800">Cappuccino / Mocha</h4>
+                            <span class="text-blue-600 font-bold mb-3">$5.50</span>
+                            <button onclick="addToCart('Cappuccino', 5.50)" class="w-full bg-stone-100 hover:bg-blue-500 text-stone-800 hover:text-white text-sm font-bold py-2 rounded-xl transition">Add</button>
+                        </div>
+                        <div class="menu-card p-4 rounded-2xl shadow-sm flex flex-col justify-between text-center">
+                            <h4 class="font-bold text-stone-800">Hot Chocolate</h4>
+                            <span class="text-blue-600 font-bold mb-3">$5.50</span>
+                            <button onclick="addToCart('Hot Chocolate', 5.50)" class="w-full bg-stone-100 hover:bg-blue-500 text-stone-800 hover:text-white text-sm font-bold py-2 rounded-xl transition">Add</button>
+                        </div>
+                        <div class="menu-card p-4 rounded-2xl shadow-sm flex flex-col justify-between text-center">
+                            <h4 class="font-bold text-stone-800">Green Tea Latte</h4>
+                            <span class="text-blue-600 font-bold mb-3">$6.50</span>
+                            <button onclick="addToCart('Green Tea Latte', 6.50)" class="w-full bg-stone-100 hover:bg-blue-500 text-stone-800 hover:text-white text-sm font-bold py-2 rounded-xl transition">Add</button>
+                        </div>
+                        <div class="menu-card p-4 rounded-2xl shadow-sm flex flex-col justify-between text-center">
+                            <h4 class="font-bold text-stone-800">Tea (Assorted)</h4>
+                            <span class="text-blue-600 font-bold mb-3">$4.80</span>
+                            <button onclick="addToCart('Tea', 4.80)" class="w-full bg-stone-100 hover:bg-blue-500 text-stone-800 hover:text-white text-sm font-bold py-2 rounded-xl transition">Add</button>
+                        </div>
+                        <div class="menu-card p-4 rounded-2xl shadow-sm flex flex-col justify-between text-center">
+                            <h4 class="font-bold text-stone-800">Iced Latte</h4>
+                            <span class="text-blue-600 font-bold mb-3">$6.80</span>
+                            <button onclick="addToCart('Iced Latte', 6.80)" class="w-full bg-stone-100 hover:bg-blue-500 text-stone-800 hover:text-white text-sm font-bold py-2 rounded-xl transition">Add</button>
+                        </div>
+                        <div class="menu-card p-4 rounded-2xl shadow-sm flex flex-col justify-between text-center">
+                            <h4 class="font-bold text-stone-800">Iced Coffee w/ Ice Cream</h4>
+                            <span class="text-blue-600 font-bold mb-3">$7.50</span>
+                            <button onclick="addToCart('Iced Coffee Ice Cream', 7.50)" class="w-full bg-stone-100 hover:bg-blue-500 text-stone-800 hover:text-white text-sm font-bold py-2 rounded-xl transition">Add</button>
+                        </div>
+                        <div class="menu-card p-4 rounded-2xl shadow-sm flex flex-col justify-between text-center">
+                            <h4 class="font-bold text-stone-800">Frappe (Coffee/Mocha)</h4>
+                            <span class="text-blue-600 font-bold mb-3">$8.50</span>
+                            <button onclick="addToCart('Frappe', 8.50)" class="w-full bg-stone-100 hover:bg-blue-500 text-stone-800 hover:text-white text-sm font-bold py-2 rounded-xl transition">Add</button>
+                        </div>
+                        <div class="menu-card p-4 rounded-2xl shadow-sm flex flex-col justify-between text-center">
+                            <h4 class="font-bold text-stone-800">Smoothie (Mango/Berry)</h4>
+                            <span class="text-blue-600 font-bold mb-3">$9.00</span>
+                            <button onclick="addToCart('Smoothie', 9.00)" class="w-full bg-stone-100 hover:bg-blue-500 text-stone-800 hover:text-white text-sm font-bold py-2 rounded-xl transition">Add</button>
+                        </div>
+                        <div class="menu-card p-4 rounded-2xl shadow-sm flex flex-col justify-between text-center">
+                            <h4 class="font-bold text-stone-800">Fresh Juice</h4>
+                            <span class="text-blue-600 font-bold mb-3">$9.50</span>
+                            <button onclick="addToCart('Fresh Juice', 9.50)" class="w-full bg-stone-100 hover:bg-blue-500 text-stone-800 hover:text-white text-sm font-bold py-2 rounded-xl transition">Add</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Customer Cart Sidebar (Simulating the 3rd Party POS Integration) -->
+                <div class="lg:w-1/3">
+                    <div class="bg-white p-6 rounded-3xl shadow-xl border border-blue-50 sticky top-24">
+                        <div class="flex justify-between items-center mb-6 pb-4 border-b border-stone-100">
+                            <h3 class="font-bold text-2xl text-stone-800 font-sans">Your Order</h3>
+                            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full"><span id="cartCount">0</span> Items</span>
+                        </div>
+
+                        <!-- Cart Items -->
+                        <div id="cartItems" class="min-h-[150px] max-h-[300px] overflow-y-auto mb-6 space-y-4 pr-2">
+                            <div id="emptyCart" class="h-full flex flex-col items-center justify-center text-stone-400 mt-8">
+                                <i class="fas fa-shopping-basket text-4xl mb-3 opacity-30 text-blue-400"></i>
+                                <p class="font-medium">Your cart is empty.</p>
+                            </div>
+                            <!-- Items injected here by JS -->
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="border-t border-stone-100 pt-4 mb-6">
+                            <div class="flex justify-between text-stone-500 mb-2 text-sm font-medium">
+                                <span>Subtotal</span>
+                                <span>$<span id="cartSubtotal">0.00</span></span>
+                            </div>
+                            <div class="flex justify-between font-bold text-xl text-stone-800 mt-2">
+                                <span>Total</span>
+                                <span>$<span id="cartTotal">0.00</span></span>
+                            </div>
+                        </div>
+
+                        <button onclick="openCheckoutModal()" id="checkoutBtn" disabled class="w-full bg-stone-200 text-stone-400 font-bold py-4 px-4 rounded-xl transition duration-200 flex items-center justify-center cursor-not-allowed">
+                            <i class="fas fa-lock mr-2"></i> Go to Checkout
+                        </button>
+                        
+                        <p class="text-center text-xs text-stone-400 mt-4 font-medium"><i class="fas fa-shield-alt mr-1"></i> Secure checkout powered by POS System</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div id="reviews" class="py-24 bg-[#fdfbf7] border-t border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4 text-stone-800">Haymarket's Favorite</h2>
+                <div class="w-20 h-1 bg-blue-300 mx-auto rounded-full"></div>
+                <p class="mt-6 text-stone-500 max-w-2xl mx-auto text-lg font-medium">Don't just take our word for it. Here is what our locals have to say.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="bg-white p-8 rounded-3xl border border-blue-50 shadow-sm flex flex-col h-full hover:shadow-lg transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 text-sm">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-stone-600 flex-grow italic mb-6 font-medium leading-relaxed">"Such a cute, hidden gem in Haymarket! The Bibimbap is surprisingly authentic and the coffee is always spot on. Highly recommend the Iced Latte with Ice Cream!"</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold mr-3">S</div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-sm">Sarah Jenkins</p>
+                            <p class="text-xs text-stone-500 font-medium">Local Guide</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white p-8 rounded-3xl border border-blue-50 shadow-sm flex flex-col h-full hover:shadow-lg transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 text-sm">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-stone-600 flex-grow italic mb-6 font-medium leading-relaxed">"Best Eggs Benedict in the area. The hollandaise sauce is perfect. It gets busy during lunch, but ordering ahead on my phone saves so much time."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold mr-3">D</div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-sm">David Chen</p>
+                            <p class="text-xs text-stone-500 font-medium">12 reviews</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white p-8 rounded-3xl border border-blue-50 shadow-sm flex flex-col h-full hover:shadow-lg transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 text-sm">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-stone-600 flex-grow italic mb-6 font-medium leading-relaxed">"Beautiful atmosphere, amazing coffee, and the staff are incredibly friendly. The Cajun Barramundi was fresh and delicious. My new go-to lunch spot near uni."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold mr-3">A</div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-sm">Amanda Lee</p>
+                            <p class="text-xs text-stone-500 font-medium">8 reviews</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Global Rating Snippet -->
+            <div class="mt-12 text-center">
+                <div class="inline-flex items-center justify-center space-x-3 bg-white px-6 py-4 rounded-full shadow-sm border border-stone-200">
+                    <span class="font-bold text-stone-800 text-2xl font-sans">4.9</span>
+                    <div class="flex text-yellow-400 text-lg">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <span class="text-stone-500 text-sm font-bold tracking-wide">Google Reviews</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hours & Location -->
+    <div id="location" class="py-20 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-stone-100 flex flex-col md:flex-row">
+                <div class="p-10 md:p-16 md:w-1/2 flex flex-col justify-center bg-stone-800 text-white">
+                    <h2 class="text-5xl font-bold mb-8 text-blue-100">Find Us</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-stone-700 flex items-center justify-center mr-4 flex-shrink-0 text-blue-300">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1 font-sans">Address</h4>
+                                <p class="text-stone-300 font-medium">Shop 8A/107-121 Quay St,<br>Haymarket NSW 2000</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-stone-700 flex items-center justify-center mr-4 flex-shrink-0 text-blue-300">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="w-full">
+                                <h4 class="font-bold text-lg mb-1 font-sans">Hours</h4>
+                                <div class="flex justify-between text-stone-300 border-b border-stone-600 pb-1 mb-1 font-medium"><span class="w-20">Mon-Fri:</span> <span>7:00am - 4:00pm</span></div>
+                                <div class="flex justify-between text-stone-300 pt-1 font-medium"><span class="w-20">Sat-Sun:</span> <span>8:00am - 3:00pm</span></div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-stone-700 flex items-center justify-center mr-4 flex-shrink-0 text-blue-300">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1 font-sans">Contact</h4>
+                                <p class="text-stone-300 font-medium">Call ahead for pickup or large orders.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 bg-stone-200 min-h-[350px] relative h-full">
+                    <!-- Real Interactive Google Map - Centered on Haymarket -->
+                    <iframe 
+                        src="https://maps.google.com/maps?q=107-121%20Quay%20St,%20Haymarket&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                        class="absolute inset-0 w-full h-full" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-blue-50 py-10 text-center">
+        <div class="mb-4">
+             <span class="brand-font font-bold text-3xl text-stone-800">
+                Noelle's Cafe
+            </span>
+        </div>
+        <p class="text-stone-400 text-sm font-medium">&copy; 2026 Noelle's Cafe. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Custom Checkout Modal (Simulated POS) -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-stone-900/60 modal-overlay" onclick="closeModal()"></div>
+        
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md z-10 overflow-hidden transform scale-95 transition-transform duration-300" id="modalContent">
+            
+            <div class="bg-[#fdfbf7] px-6 py-4 border-b border-stone-100 flex justify-between items-center">
+                <h3 class="font-bold text-xl text-stone-800 font-sans">Complete Your Order</h3>
+                <button onclick="closeModal()" class="text-stone-400 hover:text-stone-600 transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="p-6" id="modalBody">
+                <div class="flex justify-between text-lg mb-6 pb-4 border-b border-stone-100 font-medium">
+                    <span class="text-stone-600">Total to pay:</span>
+                    <span class="font-bold text-stone-800">$<span id="modalTotal">0.00</span></span>
+                </div>
+
+                <div class="space-y-4 font-sans">
+                    <div>
+                        <label class="block text-sm font-bold text-stone-700 mb-1">Name</label>
+                        <input type="text" placeholder="John Doe" class="w-full border border-stone-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-stone-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-stone-700 mb-1">Phone Number (for SMS alert)</label>
+                        <input type="tel" placeholder="0400 000 000" class="w-full border border-stone-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-stone-50">
+                    </div>
+                </div>
+
+                <button onclick="processOrder()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3.5 px-4 rounded-xl mt-8 transition shadow-lg shadow-blue-500/30 flex items-center justify-center text-lg">
+                    Pay at Cafe (Pickup)
+                </button>
+            </div>
+            
+            <div class="p-10 text-center hidden" id="modalSuccess">
+                <div class="w-20 h-20 bg-green-50 border-4 border-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500 text-4xl">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-stone-800 mb-2 font-sans">Order Sent!</h3>
+                <p class="text-stone-500 mb-8 font-medium">The kitchen has received your ticket. See you soon!</p>
+                <button onclick="resetAndClose()" class="w-full bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold py-3.5 px-4 rounded-xl transition text-lg">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant Chatbot -->
+    <div id="chatbot-container" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div id="chat-window" class="bg-white w-80 sm:w-96 rounded-2xl shadow-2xl border border-stone-200 overflow-hidden mb-4 hidden transform transition-all origin-bottom-right scale-95 opacity-0 duration-300">
+            <!-- Chat Header -->
+            <div class="bg-blue-500 px-5 py-4 flex justify-between items-center text-white">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-500 text-lg shadow-sm">
+                        <i class="fas fa-concierge-bell"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold font-sans">Noelle's Assistant</h4>
+                        <p class="text-xs text-blue-100 font-medium flex items-center"><span class="w-2 h-2 rounded-full bg-green-300 mr-1.5 animate-pulse"></span> Online</p>
+                    </div>
+                </div>
+                <button onclick="toggleChat()" class="text-blue-100 hover:text-white transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div id="chat-messages" class="h-80 p-4 overflow-y-auto bg-stone-50 space-y-4 text-sm flex flex-col font-medium">
+                <div class="flex items-start max-w-[85%]">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-2 flex-shrink-0">
+                        <i class="fas fa-robot text-xs"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-stone-100 shadow-sm text-stone-700 leading-relaxed">
+                        Hi! I'm the digital assistant for Noelle's Cafe. Try asking me about our <strong>opening hours</strong>, <strong>location</strong>, or <strong>menu options</strong>!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="chat-typing" class="px-4 py-2 bg-stone-50 hidden">
+                <div class="flex items-center space-x-1 text-stone-400">
+                    <div class="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce"></div>
+                    <div class="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    <div class="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="p-3 bg-white border-t border-stone-100 flex items-center space-x-2">
+                <input type="text" id="chat-input" placeholder="Type a message..." class="flex-grow border border-stone-200 bg-stone-50 rounded-full px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm font-medium" onkeypress="handleChatEnter(event)">
+                <button onclick="sendMessage()" class="w-10 h-10 bg-blue-500 rounded-full text-white flex items-center justify-center hover:bg-blue-600 transition shadow-md flex-shrink-0">
+                    <i class="fas fa-paper-plane text-sm -ml-0.5"></i>
+                </button>
+            </div>
+        </div>
+
+        <button id="chat-toggle-btn" onclick="toggleChat()" class="w-14 h-14 bg-blue-500 rounded-full shadow-2xl flex items-center justify-center text-white text-2xl hover:bg-blue-600 hover:scale-110 transition duration-300 relative">
+            <i class="fas fa-comment-dots"></i>
+            <span class="absolute top-0 right-0 w-4 h-4 bg-red-400 border-2 border-white rounded-full animate-ping"></span>
+            <span class="absolute top-0 right-0 w-4 h-4 bg-red-400 border-2 border-white rounded-full"></span>
+        </button>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        const formatMoney = (amount) => amount.toFixed(2);
+
+        // --- CART LOGIC ---
+        function addToCart(itemName, price) {
+            cart.push({ name: itemName, price: price });
+            total += price;
+            
+            const cartCountEl = document.getElementById('cartCount');
+            cartCountEl.classList.add('pop-anim');
+            setTimeout(() => cartCountEl.classList.remove('pop-anim'), 300);
+            
+            renderCart();
+        }
+
+        function removeFromCart(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function renderCart() {
+            const listEl = document.getElementById('cartItems');
+            const emptyEl = document.getElementById('emptyCart');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            
+            document.getElementById('cartCount').innerText = cart.length;
+            document.getElementById('cartSubtotal').innerText = formatMoney(total);
+            document.getElementById('cartTotal').innerText = formatMoney(total);
+            document.getElementById('modalTotal').innerText = formatMoney(total);
+
+            if (cart.length === 0) {
+                listEl.innerHTML = '';
+                listEl.appendChild(emptyEl);
+                emptyEl.style.display = 'flex';
+                
+                checkoutBtn.disabled = true;
+                checkoutBtn.className = "w-full bg-stone-200 text-stone-400 font-bold py-4 px-4 rounded-xl transition duration-200 flex items-center justify-center cursor-not-allowed";
+                return;
+            }
+
+            emptyEl.style.display = 'none';
+            listEl.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex justify-between items-center bg-stone-50 p-3 rounded-xl border border-stone-100'; 
+                itemDiv.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="font-bold text-sm text-stone-800 font-sans">${item.name}</span>
+                        <span class="text-xs text-stone-500 font-medium">$${formatMoney(item.price)}</span>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="text-stone-400 hover:text-red-500 transition p-1">
+                        <i class="fas fa-times-circle text-lg"></i>
+                    </button>
+                `;
+                listEl.appendChild(itemDiv);
+            });
+
+            checkoutBtn.disabled = false;
+            checkoutBtn.className = "w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-4 rounded-xl transition shadow-lg shadow-blue-500/30 flex items-center justify-center transform hover:-translate-y-1";
+        }
+
+        /* --- MODAL LOGIC --- */
+        function openCheckoutModal() {
+            if(cart.length === 0) return;
+            const modal = document.getElementById('checkoutModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('checkoutModal');
+            const content = document.getElementById('modalContent');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        function processOrder() {
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                document.getElementById('modalBody').classList.add('hidden');
+                document.getElementById('modalSuccess').classList.remove('hidden');
+                document.getElementById('modalSuccess').classList.add('flex', 'flex-col');
+            }, 1500);
+        }
+
+        function resetAndClose() {
+            closeModal();
+            setTimeout(() => {
+                cart = [];
+                total = 0;
+                renderCart();
+                document.getElementById('modalBody').classList.remove('hidden');
+                document.getElementById('modalSuccess').classList.add('hidden');
+                document.getElementById('modalSuccess').classList.remove('flex', 'flex-col');
+                const processBtn = document.querySelector('#modalBody button');
+                processBtn.innerHTML = 'Pay at Cafe (Pickup)';
+                processBtn.disabled = false;
+            }, 500);
+        }
+
+        // --- SMART MENU LOGIC (TIME CHECKING) ---
+        function updateMenuAvailability() {
+            const now = new Date();
+            const day = now.getDay(); // 0 = Sun ... 6 = Sat
+            const hour = now.getHours();
+            const min = now.getMinutes();
+            const currentTime = hour + (min / 60);
+
+            // Noelle's Cafe Hours (simulated based on typical Haymarket brunch spots)
+            // Mon-Fri: 7am to 4pm. Sat-Sun: 8am to 3pm.
+            let isOpen = false;
+            let isMainsTime = false; 
+
+            if (day >= 1 && day <= 5) { // Weekday
+                if (currentTime >= 7 && currentTime < 16) isOpen = true;
+            } else { // Weekend
+                if (currentTime >= 8 && currentTime < 15) isOpen = true;
+            }
+
+            // Mains are generally served from 10:30am until close
+            if (isOpen && currentTime >= 10.5) {
+                isMainsTime = true;
+            }
+
+            // FOR THE PITCH: If you want to force the menu to always look "Open" during your pitch, 
+            // you can comment out the real logic and just set isOpen = true; isMainsTime = true;
+            // Let's ensure it shows as open for the sake of the demonstration if it's late.
+            // UNCOMMENT THIS OVERRIDE IF PITCHING AT NIGHT:
+            // isOpen = true; isMainsTime = true; 
+
+            const kitchenStatus = document.getElementById('kitchenStatus');
+            if (kitchenStatus) {
+                if (isOpen) {
+                    kitchenStatus.innerHTML = '<i class="fas fa-circle text-green-500 text-[10px] mr-2"></i> KITCHEN OPEN';
+                    kitchenStatus.className = "inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-800 text-sm font-bold tracking-wide transition-colors duration-300";
+                } else {
+                    kitchenStatus.innerHTML = '<i class="fas fa-circle text-red-500 text-[10px] mr-2"></i> KITCHEN CLOSED';
+                    kitchenStatus.className = "inline-flex items-center px-4 py-2 rounded-full bg-red-100 text-red-800 text-sm font-bold tracking-wide transition-colors duration-300";
+                }
+            }
+
+            function toggleCategory(gridId, isAvailable, offlineMessage) {
+                const grid = document.getElementById(gridId);
+                if (!grid) return;
+                
+                const buttons = grid.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    if (!isAvailable) {
+                        btn.disabled = true;
+                        btn.classList.replace('bg-stone-800', 'bg-stone-200');
+                        btn.classList.replace('text-white', 'text-stone-400');
+                        btn.classList.replace('hover:bg-blue-500', 'hover:bg-stone-200');
+                        btn.innerHTML = `<span class="text-xs font-bold uppercase tracking-wider">${offlineMessage}</span>`;
+                        btn.classList.add('cursor-not-allowed');
+                    } else {
+                        btn.disabled = false;
+                        btn.classList.replace('bg-stone-200', 'bg-stone-800');
+                        btn.classList.replace('text-stone-400', 'text-white');
+                        btn.classList.replace('hover:bg-stone-200', 'hover:bg-blue-500');
+                        btn.innerHTML = 'Add to Order';
+                        btn.classList.remove('cursor-not-allowed');
+                    }
+                });
+            }
+
+            // Apply specific logic
+            toggleCategory('grid-breakfast', isOpen, 'Closed');
+            toggleCategory('grid-sandwiches', isOpen, 'Closed');
+            toggleCategory('grid-drinks', isOpen, 'Closed');
+            toggleCategory('grid-salads', isOpen, 'Closed');
+            
+            // Mains only available later in the day
+            toggleCategory('grid-mains', isOpen && isMainsTime, 'Available 10:30am');
+        }
+
+        updateMenuAvailability();
+        setInterval(updateMenuAvailability, 60000);
+
+        // --- AI CHATBOT LOGIC ---
+        const chatWindow = document.getElementById('chat-window');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const chatTyping = document.getElementById('chat-typing');
+
+        function toggleChat() {
+            if (chatWindow.classList.contains('hidden')) {
+                chatWindow.classList.remove('hidden');
+                setTimeout(() => {
+                    chatWindow.classList.remove('scale-95', 'opacity-0');
+                    chatWindow.classList.add('scale-100', 'opacity-100');
+                }, 10);
+                chatInput.focus();
+            } else {
+                chatWindow.classList.remove('scale-100', 'opacity-100');
+                chatWindow.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => { chatWindow.classList.add('hidden'); }, 300);
+            }
+        }
+
+        function handleChatEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function appendMessage(text, isUser) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = isUser ? 'flex items-end justify-end max-w-[85%] self-end' : 'flex items-start max-w-[85%]';
+            
+            let innerHTML = '';
+            if (isUser) {
+                innerHTML = `
+                    <div class="bg-blue-500 p-3 rounded-2xl rounded-tr-none shadow-sm text-white text-sm leading-relaxed">
+                        ${text}
+                    </div>
+                `;
+            } else {
+                innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-2 flex-shrink-0">
+                        <i class="fas fa-robot text-xs"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-stone-100 shadow-sm text-stone-700 text-sm leading-relaxed">
+                        ${text}
+                    </div>
+                `;
+            }
+            
+            msgDiv.innerHTML = innerHTML;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            
+            appendMessage(text, true);
+            chatInput.value = '';
+            
+            chatTyping.classList.remove('hidden');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            setTimeout(() => {
+                chatTyping.classList.add('hidden');
+                generateBotResponse(text.toLowerCase());
+            }, 1000 + Math.random() * 1000);
+        }
+
+        function generateBotResponse(input) {
+            let response = "I'm still learning! If you have specific questions, please visit us in Haymarket or check our online menu above.";
+            
+            if (input.includes('hour') || input.includes('time') || input.includes('open')) {
+                response = "We are open Monday to Friday from 7:00 AM to 4:00 PM. On weekends, we are open 8:00 AM to 3:00 PM for all your brunch needs!";
+            } else if (input.includes('where') || input.includes('location') || input.includes('address') || input.includes('find')) {
+                response = "You can find us at Shop 8A/107-121 Quay St, right in the heart of Haymarket, Sydney.";
+            } else if (input.includes('vegan') || input.includes('vegetarian') || input.includes('veg')) {
+                response = "Yes! We have a dedicated Veggie Breakfast, Avocado on Sourdough, Haloumi Salad, and several other delicious vegetarian-friendly options.";
+            } else if (input.includes('delivery')) {
+                response = "Right now we highly recommend using this website to order ahead for fast Pickup! This skips the delivery fees and ensures your food is perfectly fresh.";
+            } else if (input.includes('bibimbap') || input.includes('asian')) {
+                response = "Our Bibimbap is a customer favorite! It comes with marinated beef, grilled vegetables and rice. You can choose chilly or soy sauce.";
+            } else if (input.includes('hello') || input.includes('hi ') || input.includes('hey') || input === 'hi') {
+                response = "Hello! Welcome to Noelle's Cafe online. How can I assist you with your brunch order today?";
+            } else if (input.includes('coffee') || input.includes('drink')) {
+                response = "We take our coffee seriously. We offer everything from classic flat whites and lattes to frappes, smoothies, and fresh juice!";
+            }
+
+            appendMessage(response, false);
+        }
+    </script>
+</body>
+</html>
